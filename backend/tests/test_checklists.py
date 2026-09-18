@@ -15,6 +15,7 @@ def test_admin_creates_and_publishes_checklist():
         payload = {'name': 'Checklist de teste', 'inspection_type': 'PISTA', 'items': [{'item_key': 'item_1', 'label': 'Verificar pista'}]}
         created_by_fiscal = client.post('/checklist-templates', json=payload)
         assert created_by_fiscal.status_code == 201
+        assert client.get('/checklist-templates').status_code == 200
         fiscal_template_id = created_by_fiscal.json()['id']
         submitted = client.patch(f'/checklist-templates/{fiscal_template_id}/status', json={'status': 'EM_REVISAO'})
         assert submitted.status_code == 200
